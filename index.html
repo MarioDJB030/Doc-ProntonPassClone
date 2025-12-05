@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Proton Pass Clone</title>
+    <!-- Estilos para el resaltado de código (Tema Atom One Dark) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <!-- Iconos para el árbol de directorios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS DE LA PÁGINA (STANDALONE) --- */
+        body {
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL (HOJA) --- */
+        .doc-container {
+            line-height: 1.6;
+            color: #333;
+            max-width: 950px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- TIPOGRAFÍA --- */
+        h1 {
+            border-bottom: 3px solid #6c5ce7;
+            padding-bottom: 15px;
+            color: #2d3436;
+            margin-top: 0;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #dfe6e9;
+            padding-bottom: 8px;
+            color: #6c5ce7;
+            margin-top: 50px;
+            font-size: 1.6em;
+        }
+
+        h3 {
+            color: #2d3436;
+            margin-top: 30px;
+            font-weight: 600;
+            font-size: 1.3em;
+        }
+
+        strong {
+            color: #2d3436;
+            font-weight: 700;
+        }
+
+        /* --- ÍNDICE DE CONTENIDOS --- */
+        .toc-container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border: 1px solid #e1e4e8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .toc-container h3 {
+            margin-top: 0;
+            color: #6c5ce7;
+            border-bottom: none;
+        }
+
+        .toc-list {
+            columns: 2;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 10px;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: #0984e3;
+            font-weight: 500;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-list a:hover {
+            color: #d63031;
+            text-decoration: underline;
+        }
+
+        .toc-list a::before {
+            content: "•";
+            color: #b2bec3;
+            font-weight: bold;
+        }
+
+        /* --- BLOQUE DE INTRODUCCIÓN --- */
+        .intro-box {
+            background-color: #f1f2f6;
+            border-left: 5px solid #0984e3;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        /* --- ÁRBOL DE ARCHIVOS --- */
+        .file-tree {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.95em;
+            margin-bottom: 30px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .file-tree ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .file-tree li {
+            margin: 6px 0;
+            position: relative;
+        }
+
+        .file-tree strong {
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+        .tree-link {
+            text-decoration: none;
+            color: #d4d4d4;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .tree-link:hover {
+            color: #4ec9b0;
+            text-decoration: underline;
+        }
+
+        .folder-icon {
+            color: #dcb67a;
+            margin-right: 8px;
+        }
+
+        .file-icon {
+            color: #51a0cf;
+            margin-right: 8px;
+        }
+
+        .component-icon {
+            color: #c586c0;
+            margin-right: 8px;
+        }
+
+        /* --- CAJAS DE CÓDIGO --- */
+        .code-wrapper {
+            background-color: #282c34;
+            border-radius: 8px;
+            margin: 30px 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid #3e4451;
+        }
+
+        .code-header {
+            background-color: #21252b;
+            padding: 15px 20px;
+            border-bottom: 1px solid #181a1f;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .code-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            color: #61afef;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .code-details {
+            background-color: #2c313a;
+            border-left: 3px solid #98c379;
+            padding: 12px;
+            font-size: 0.9em;
+            color: #abb2bf;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .code-details span {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .param-tag {
+            color: #e06c75;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .return-tag {
+            color: #56b6c2;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .btn-code {
+            background: #3e4451;
+            border: none;
+            color: #dcdcdc;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .btn-code:hover {
+            background-color: #5c6370;
+            color: #fff;
+        }
+
+        .code-content {
+            position: relative;
+            max-height: 300px;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .code-content.expanded {
+            max-height: 3000px;
+        }
+
+        pre {
+            margin: 0;
+            padding: 0;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+            padding: 25px !important;
+        }
+
+        /* --- TABLAS --- */
+        .schema-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .schema-table th,
+        .schema-table td {
+            border: 1px solid #e1e4e8;
+            padding: 15px;
+        }
+
+        .schema-table th {
+            background-color: #6c5ce7;
+            color: white;
+            text-align: left;
+        }
+
+        .schema-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* --- TARJETAS DE PÁGINAS --- */
+        .page-card {
+            background: #fff;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #6c5ce7;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .page-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-card h3 {
+            margin-top: 0;
+            color: #2d3436;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2em;
+        }
+
+        .page-icon {
+            color: #6c5ce7;
+        }
+
+        .page-text {
+            color: #555;
+            font-size: 1em;
+            margin-top: 15px;
+            text-align: justify;
+        }
+
+        /* --- ESTILOS DEL CARRUSEL --- */
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            /* Ancho máximo de las imágenes */
+            margin: 25px auto 10px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e1e4e8;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+            /* Flex para centrar la imagen si es mas estrecha que el contenedor */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            /* Fondo suave para el espacio vacío */
+        }
+
+        .carousel-item img {
+            width: auto;
+            /* Dejar que el ancho sea automático */
+            max-width: 100%;
+            /* Pero que no supere el 100% del contenedor */
+            height: auto;
+            max-height: 550px;
+            /* --- ALTURA MÁXIMA PARA CAPTURAS MÓVILES --- */
+            display: block;
+            object-fit: contain;
+            /* Asegura que la imagen se vea completa */
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            font-size: 1.2em;
+            z-index: 10;
+        }
+
+        .carousel-control:hover {
+            background: rgba(108, 92, 231, 0.9);
+        }
+
+        .carousel-control.prev {
+            left: 10px;
+        }
+
+        .carousel-control.next {
+            right: 10px;
+        }
+
+        /* --- ANIMACIÓN TARGET --- */
+        @keyframes highlight-pulse {
+            0% {
+                background-color: rgba(108, 92, 231, 0.0);
+                transform: scale(1);
+                border-left-width: 5px;
+            }
+
+            20% {
+                background-color: rgba(108, 92, 231, 0.15);
+                transform: scale(1.02);
+                border-left-width: 8px;
+                border-left-color: #0984e3;
+            }
+
+            100% {
+                background-color: rgba(108, 92, 231, 0.0);
+                transform: scale(1);
+                border-left-width: 5px;
+            }
+        }
+
+        .page-card:target,
+        .code-wrapper:target {
+            animation: highlight-pulse 2s ease-out;
+            border-color: #6c5ce7;
+        }
+
+        /* Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .section-target {
+            scroll-margin-top: 90px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="doc-container">
+
+        <!-- CABECERA PRINCIPAL -->
+        <h1>Clon de Proton Pass - Documentación Técnica</h1>
+
+        <!-- ÍNDICE DE CONTENIDOS -->
+        <div class="toc-container">
+            <h3>Índice de Contenidos</h3>
+            <ul class="toc-list">
+                <li><a href="#intro">Introducción y Contexto</a></li>
+                <li><a href="#databases">Bases de Datos Utilizadas</a></li>
+                <li><a href="#schemas">Schemas de Firebase</a></li>
+                <li><a href="#functions">Custom Functions (Lógica)</a></li>
+                <li><a href="#tree-structure">Estructura del Proyecto</a></li>
+                <li><a href="#pages-explanation">Explicación de Páginas</a></li>
+            </ul>
+        </div>
+
+        <!-- 1. INTRODUCCIÓN -->
+        <h2 id="intro" style="margin-top:0;">Introducción</h2>
+        <p>
+            Bienvenido a la documentación técnica del proyecto <strong>Proton Pass Clone</strong>. Este documento
+            detalla la estructura, lógica de seguridad y funcionamiento de la aplicación desarrollada en FlutterFlow. El
+            objetivo principal de este proyecto es replicar la funcionalidad del gestor de contraseñas Proton Pass,
+            poniendo énfasis en la privacidad y la encriptación de datos del lado del cliente.
+        </p>
+
+        <div class="intro-box">
+            <h3>Encriptar y desencriptar datos</h3>
+            <p>
+                Todos los datos del usuario delicados son <strong>encriptados antes de subirlos a la nube</strong> en la
+                base de datos. Al momento de descargar esos datos en el dispositivo, estos permanecen encriptados en
+                todo momento; solo se desencriptan al instante de mostrar la información al usuario en pantalla.
+            </p>
+            <p>
+                En mi caso, como FlutterFlow no permite añadir librerías públicas gratuitamente (cambio reciente), he
+                usado el <strong>cifrado XOR</strong>. Se basa en el uso de puertas lógicas XOR para codificar y
+                verificar la autenticidad de los datos. Para realizar este cifrado se introducen dos datos: el
+                <strong>texto plano</strong> (ya sea una contraseña, un nombre de usuario, etc.) y la <strong>clave
+                    maestra</strong>, que es la contraseña de autenticación del usuario.
+            </p>
+        </div>
+
+        <!-- 2. BASES DE DATOS -->
+        <h2 id="databases">Bases de Datos Utilizada</h2>
+
+        <div class="intro-box" style="border-left-color: #e17055; background-color: #fff5f5;">
+            <p>
+                Al momento de configurar la autenticación, por algún motivo me daba fallos activar la opción de Firebase
+                e interpreté en la página de Firebase (por equivocación) que se había convertido en una opción de pago.
+                Por lo que decidí usar <strong>SupaBase para la autenticación</strong> y <strong>Firebase para guardar
+                    los datos</strong>.
+            </p>
+            <p>
+                Esta decisión no es ni de cerca la mejor, ya que lo suyo sería usar estas dos funciones desde el mismo
+                servidor, pero como no tuve en ese momento el tiempo necesario para aprender SupaBase, decidí hacerlo de
+                esta manera y no complicarme. Para relacionar al usuario de SupaBase con su documento de Firebase se usa
+                el <strong>User ID</strong> generado en SupaBase.
+            </p>
+            <div class="security-note">
+                <strong><i class="fas fa-shield-alt"></i> Nota de Seguridad:</strong>
+                Una mejora adicional recomendable sería <strong>ofuscar los nombres de los parámetros</strong> (campos)
+                en la base de datos (por ejemplo, usar códigos como <code>p_1</code> en lugar de <code>password</code>).
+                Esto dificultaría significativamente la ingeniería inversa y la comprensión de la estructura de datos en
+                caso de una filtración parcial o acceso no autorizado a los metadatos.
+            </div>
+        </div>
+
+        <!-- 3. SCHEMAS -->
+        <h2 id="schemas">Schemas de Firebase</h2>
+
+        <h3>Collection: User</h3>
+        <table class="schema-table">
+            <tr>
+                <th>Campo</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>uid</td>
+                <td>String</td>
+                <td>Usado como clave foránea con el userID de la autenticación de SupaBase.</td>
+            </tr>
+            <tr>
+                <td>created_time</td>
+                <td>DateTime</td>
+                <td>Fecha de creación del documento.</td>
+            </tr>
+            <tr>
+                <td>elements</td>
+                <td>List DataType(element)</td>
+                <td>Lista para guardar los elementos (inicios de sesión, notas, identidades...).</td>
+            </tr>
+            <tr>
+                <td>packages</td>
+                <td>List DataType(package)</td>
+                <td>Grupos donde guardar y organizar los elementos.</td>
+            </tr>
+            <tr>
+                <td>trash</td>
+                <td>List DataType(element)</td>
+                <td>Papelera para guardar los elementos "borrados".</td>
+            </tr>
+        </table>
+
+        <h3>DataType (element)</h3>
+        <p>Tipo de dato que puede representar diferentes items (contraseñas, notas, tarjetas...).</p>
+        <table class="schema-table">
+            <tr>
+                <th>Campo</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>user</td>
+                <td>String</td>
+                <td>Campo de usuario/email (Encriptado).</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>String</td>
+                <td>Campo de contraseña (Encriptado).</td>
+            </tr>
+            <tr>
+                <td>alias</td>
+                <td>String</td>
+                <td>Alias (correo que te da Proton vinculado al tuyo).</td>
+            </tr>
+            <tr>
+                <td>note</td>
+                <td>String</td>
+                <td>Campo de nota.</td>
+            </tr>
+            <tr>
+                <td>bankCard</td>
+                <td>String</td>
+                <td>Campo de tarjeta bancaria.</td>
+            </tr>
+            <tr>
+                <td>identity</td>
+                <td>DataType(identity)</td>
+                <td>Campo donde guardar un "contacto".</td>
+            </tr>
+            <tr>
+                <td>lastChange</td>
+                <td>DateTime</td>
+                <td>Última vez que se editó el elemento.</td>
+            </tr>
+            <tr>
+                <td>createdAt</td>
+                <td>DateTime</td>
+                <td>Fecha de creación.</td>
+            </tr>
+        </table>
+
+        <h3>DataType (package)</h3>
+        <table class="schema-table">
+            <tr>
+                <th>Campo</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>String</td>
+                <td>Nombre del grupo/paquete.</td>
+            </tr>
+            <tr>
+                <td>size</td>
+                <td>Integer</td>
+                <td>Cantidad de elementos que pertenecen a él.</td>
+            </tr>
+            <tr>
+                <td>color</td>
+                <td>Color</td>
+                <td>Color principal distintivo.</td>
+            </tr>
+            <tr>
+                <td>icon</td>
+                <td>Integer</td>
+                <td>Índice de un icono predefinido de un array de iconos.</td>
+            </tr>
+        </table>
+
+        <h3>DataType (identity)</h3>
+        <table class="schema-table">
+            <tr>
+                <th>Campo</th>
+                <th>Tipo</th>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>lastName</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>phone</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>country</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>city</td>
+                <td>String</td>
+            </tr>
+        </table>
+
+        <!-- 4. CUSTOM FUNCTIONS -->
+        <h2 id="functions">Custom Functions</h2>
+
+        <!-- FUNCION 1 -->
+        <div id="func-encrypt" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">encryptString</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (String plainText, String passwordKey)</span>
+                    <span><span class="return-tag">Salida:</span> String (Base64)</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Método de encriptación. Recibe el texto plano y la clave
+                        maestra, aplica cifrado XOR byte a byte y retorna el resultado codificado en Base64 para
+                        almacenamiento seguro.</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+String encryptString(
+  String plainText,
+  String passwordKey,
+) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+  if (plainText.isEmpty || passwordKey.isEmpty) {
+    return "";
+  }
+
+  // 1. Convertimos el texto y la clave a listas de bytes (números)
+  List<int> textBytes = utf8.encode(plainText);
+  List<int> keyBytes = utf8.encode(passwordKey);
+  List<int> encryptedBytes = [];
+
+  // 2. Aplicamos el cifrado XOR
+  // Esto recorre cada letra y la mezcla con una letra de la clave
+  for (int i = 0; i < textBytes.length; i++) {
+    // El operador ^ es el XOR. Usamos el módulo (%) para repetir la clave si es más corta que el texto.
+    encryptedBytes.add(textBytes[i] ^ keyBytes[i % keyBytes.length]);
+  }
+
+  // 3. Convertimos el resultado a Base64 para guardarlo en Supabase
+  return base64.encode(encryptedBytes);
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- FUNCION 2 -->
+        <div id="func-decrypt" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">decryptSimple</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (String? encryptedText, String passwordKey)</span>
+                    <span><span class="return-tag">Salida:</span> String (Texto Plano)</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Método para desencriptar. Toma la cadena cifrada en
+                        Base64, la decodifica y revierte el proceso XOR usando la clave maestra para recuperar el texto
+                        legible original.</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+String decryptSimple(
+  String? encryptedText,
+  String passwordKey,
+) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+  // Validaciones de seguridad para evitar errores rojos en la app
+  if (encryptedText == null || encryptedText.isEmpty || passwordKey.isEmpty) {
+    return "Sin datos";
+  }
+
+  try {
+    // 1. Descodificamos el Base64 que viene de la base de datos
+    List<int> encryptedBytes = base64.decode(encryptedText);
+    List<int> keyBytes = utf8.encode(passwordKey);
+    List<int> decryptedBytes = [];
+
+    // 2. Aplicamos XOR de nuevo (esto invierte el proceso anterior)
+    for (int i = 0; i < encryptedBytes.length; i++) {
+      decryptedBytes.add(encryptedBytes[i] ^ keyBytes[i % keyBytes.length]);
+    }
+
+    // 3. Convertimos los números resultantes a texto legible
+    return utf8.decode(decryptedBytes);
+  } catch (e) {
+    // Si la clave es incorrecta o el texto no es válido, devolvemos esto
+    return "Error: Clave incorrecta";
+  }
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- FUNCION 3 -->
+        <div id="func-checkPass" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">checkPasswordSecurity</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (String password)</span>
+                    <span><span class="return-tag">Salida:</span> Boolean</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Auditoría de seguridad. Evalúa si una contraseña es
+                        segura verificando 5 condiciones: longitud > 8, mayúsculas, minúsculas, números y caracteres
+                        especiales.</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+bool checkPasswordSecurity(String password) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+// Si la contraseña es nula o vacía, no es segura
+  if (password.isEmpty) {
+    return false;
+  }
+
+  // 1. Validar longitud mínima (ej: 8 caracteres)
+  if (password.length < 8) {
+    return false;
+  }
+
+  // 2. Validar que tenga al menos una letra mayúscula
+  if (!password.contains(RegExp(r'[A-Z]'))) {
+    return false;
+  }
+
+  // 3. Validar que tenga al menos una letra minúscula
+  if (!password.contains(RegExp(r'[a-z]'))) {
+    return false;
+  }
+
+  // 4. Validar que tenga al menos un número
+  if (!password.contains(RegExp(r'[0-9]'))) {
+    return false;
+  }
+
+  // 5. Validar que tenga al menos un carácter especial
+  // Nota: Puedes ajustar los caracteres dentro de los corchetes [] según lo que permitas
+  if (!password.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'))) {
+    return false;
+  }
+
+  // Si pasa todas las pruebas, es válida
+  return true;
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- FUNCION 4 -->
+        <div id="func-genPass" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">generateRandomPassword</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (int length, bool useSpecialChars, bool useUpperCase,
+                        bool useNumbers)</span>
+                    <span><span class="return-tag">Salida:</span> String</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Generador de contraseñas. Crea una cadena aleatoria de
+                        longitud 'length' utilizando un conjunto de caracteres dinámico basado en las opciones booleanas
+                        activadas (números, símbolos, etc.).</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+String generateRandomPassword(
+  int length,
+  bool useSpecialChars,
+  bool useUpperCase,
+  bool useNumbers,
+) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+// Definimos los grupos de caracteres
+  const String _lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+  const String _upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const String _numbers = '0123456789';
+  const String _special = '!@#\$%^&*()_+-=[]{}|;:,.<>?';
+
+  // Creamos el "pool" de caracteres permitidos según los inputs
+  String charPool =
+      _lowerCase; // Por defecto siempre incluimos minúsculas para evitar pool vacío
+
+  if (useUpperCase) charPool += _upperCase;
+  if (useNumbers) charPool += _numbers;
+  if (useSpecialChars) charPool += _special;
+
+  // Generamos la contraseña
+  String result = "";
+  for (int i = 0; i < length; i++) {
+    // Usamos math.Random para elegir un caracter aleatorio del pool
+    int randomIndex = math.Random().nextInt(charPool.length);
+    result += charPool[randomIndex];
+  }
+
+  return result;
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- FUNCION 5 -->
+        <div id="func-opacity" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">reducirOpacidad</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (Color colorOriginal, int porcentajeOpacidad)</span>
+                    <span><span class="return-tag">Salida:</span> Color</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Manipulación de color. Devuelve una nueva instancia del
+                        color original pero con el canal Alpha modificado según el porcentaje indicado (0-100) para
+                        efectos de UI.</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+Color reducirOpacidad(
+  Color colorOriginal,
+  int porcentajeOpacidad,
+) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+  // 1. Asegurarse de que el porcentaje esté entre 0 y 100
+  double porcentajeClampeado =
+      math.max(0.0, math.min(100.0, porcentajeOpacidad.toDouble()));
+
+  // 2. Convertir el porcentaje (ej: 50) a un factor (ej: 0.5)
+  double opacidadFactor = porcentajeClampeado / 100.0;
+
+  // 3. Convertir el factor (0.0-1.0) a un valor alpha (0-255)
+  // (opacidadFactor * 255) nos da el valor alpha
+  // .round() lo convierte en el entero más cercano
+  int nuevoAlpha = (opacidadFactor * 255).round();
+
+  // 4. Devolver el color original usando .withAlpha()
+  return colorOriginal.withAlpha(nuevoAlpha);
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- FUNCION 6 -->
+        <div id="func-icon" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">getTextIconTitle</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (String title)</span>
+                    <span><span class="return-tag">Salida:</span> String?</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Generador de Avatar. Extrae los dos primeros caracteres
+                        de cualquier texto y los devuelve en mayúsculas. Útil para mostrar iconos con iniciales cuando
+                        no hay imagen.</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+String? getTextIconTitle(String title) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+// 1. Si el texto viene vacío o nulo (aunque en FF suele ser string vacío), devolvemos cadena vacía.
+  if (title.isEmpty) {
+    return '';
+  }
+
+  // 2. Si el texto tiene menos de 2 caracteres (ej: "A"), devolvemos todo en mayúsculas.
+  if (title.length < 2) {
+    return title.toUpperCase();
+  }
+
+  // 3. Caso normal: cortamos de 0 a 2 y convertimos a mayúsculas.
+  return title.substring(0, 2).toUpperCase();
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- FUNCION 7 -->
+        <div id="func-date" class="code-wrapper section-target">
+            <div class="code-header">
+                <div class="code-title-row">
+                    <span class="code-title">restarMesesFecha</span>
+                    <div class="code-actions">
+                        <button class="btn-code" onclick="toggleCode(this)">Expandir</button>
+                        <button class="btn-code" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                </div>
+                <div class="code-details">
+                    <span><span class="param-tag">Entrada:</span> (int monthSize, DateTime currentTime)</span>
+                    <span><span class="return-tag">Salida:</span> DateTime</span>
+                    <p style="margin:5px 0 0 0; color:#d4d4d4;">Lógica de Fechas. Calcula una fecha pasada restando 'X'
+                        meses a la fecha actual. Maneja el cambio de año (rollover) y ajusta los días para evitar
+                        errores en meses cortos (ej. febrero).</p>
+                </div>
+            </div>
+            <div class="code-content">
+                <pre><code class="language-dart">import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '/flutter_flow/custom_functions.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
+import '/flutter_flow/uploaded_file.dart';
+import '/backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
+
+DateTime restarMesesFecha(
+  int monthSize,
+  DateTime currentTime,
+) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+  // Si monthSize es 0, devolvemos la fecha actual sin cambios
+  if (monthSize == 0) {
+    return currentTime;
+  }
+
+  // Calculamos el nuevo año y mes
+  int newYear = currentTime.year;
+  int newMonth = currentTime.month - monthSize;
+
+  // Ajustamos el año si el mes resultante es menor a 1 (año anterior)
+  // El bucle while maneja si restas más de 12 meses de golpe
+  while (newMonth < 1) {
+    newYear--;
+    newMonth += 12;
+  }
+
+  // Obtenemos el último día válido del nuevo mes para evitar errores
+  // (Ej: 31 de Marzo - 1 mes no puede ser 31 de Febrero)
+  // En Dart, el día '0' del mes siguiente nos da el último día del mes actual.
+  int lastDayOfNewMonth = DateTime(newYear, newMonth + 1, 0).day;
+
+  // Ajustamos el día: si el día actual es mayor al último día del nuevo mes,
+  // usamos el último día de ese mes.
+  int newDay = currentTime.day;
+  if (newDay > lastDayOfNewMonth) {
+    newDay = lastDayOfNewMonth;
+  }
+
+  // Devolvemos la nueva fecha manteniendo la hora, minuto y segundo originales
+  return DateTime(
+    newYear,
+    newMonth,
+    newDay,
+    currentTime.hour,
+    currentTime.minute,
+    currentTime.second,
+  );
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- 5. ÁRBOL DE PÁGINAS Y COMPONENTES -->
+        <h2 id="tree-structure">Estructura del Proyecto (Árbol de Páginas)</h2>
+        <p>Haz clic en los archivos del árbol para saltar a su explicación (la tarjeta parpadeará).</p>
+
+        <div class="file-tree">
+            <ul>
+                <!-- CARPETA LOGIN -->
+                <li><i class="fa-regular fa-folder folder-icon"></i> <strong>login</strong>
+                    <ul>
+                        <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-loadPage"
+                                class="tree-link">loadPage</a></li>
+                        <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-login"
+                                class="tree-link">Login</a></li>
+                        <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-signUp"
+                                class="tree-link">SignUp</a></li>
+                    </ul>
+                </li>
+
+                <!-- CARPETA HOME -->
+                <li><i class="fa-regular fa-folder folder-icon"></i> <strong>home</strong>
+                    <ul>
+                        <!-- Subcarpeta Componentes -->
+                        <li><i class="fa-regular fa-folder folder-icon"></i> componentes
+                            <ul>
+                                <li><i class="fa-solid fa-cube component-icon"></i> <a href="#comp-createPackages"
+                                        class="tree-link">createPackages</a></li>
+                                <li><i class="fa-solid fa-cube component-icon"></i> element</li>
+                                <li><i class="fa-solid fa-cube component-icon"></i> <a href="#page-menuCreateElement"
+                                        class="tree-link">menuCreateElement</a></li>
+                                <li><i class="fa-solid fa-cube component-icon"></i> <a href="#comp-navBar"
+                                        class="tree-link">navBar</a></li>
+                                <li><i class="fa-solid fa-cube component-icon"></i> <a href="#page-packagesMenu"
+                                        class="tree-link">packagesMenu</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Subcarpeta viewElements -->
+                        <li><i class="fa-regular fa-folder folder-icon"></i> viewElements</li>
+
+                        <!-- Subcarpeta viewSesion -->
+                        <li><i class="fa-regular fa-folder folder-icon"></i> viewSesion
+                            <ul>
+                                <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-viewSesionPage"
+                                        class="tree-link">viewSesionPage</a></li>
+                            </ul>
+                        </li>
+
+                        <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-inicio"
+                                class="tree-link">Inicio</a></li>
+                    </ul>
+                </li>
+
+                <!-- CARPETA CREATE ELEMENTS -->
+                <li><i class="fa-regular fa-folder folder-icon"></i> <strong>createElements</strong>
+                    <ul>
+                        <li><i class="fa-regular fa-folder folder-icon"></i> genericComponents</li>
+                        <li><i class="fa-regular fa-folder folder-icon"></i> sesion
+                            <ul>
+                                <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-createSesionPage"
+                                        class="tree-link">createSesionPage</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- CARPETA SECURITY -->
+                <li><i class="fa-regular fa-folder folder-icon"></i> <strong>security</strong>
+                    <ul>
+                        <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-security"
+                                class="tree-link">security</a></li>
+                    </ul>
+                </li>
+
+                <!-- CARPETA SETTINGS -->
+                <li><i class="fa-regular fa-folder folder-icon"></i> <strong>settings</strong>
+                    <ul>
+                        <li><i class="fa-regular fa-file-code file-icon"></i> <a href="#page-settings"
+                                class="tree-link">settingsPage</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 6. EXPLICACIÓN DE PÁGINAS -->
+        <h2 id="pages-explanation">Explicación de Páginas</h2>
+
+        <!-- LOADPAGE -->
+        <div id="page-loadPage" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> loadPage</h3>
+            <div class="page-text">
+                Esta es la primera página que carga el usuario al iniciar la aplicación o al autenticarse. Esta página
+                tiene la función de comprobar si la <strong>clave maestra</strong> aún permanece guardada.
+                <br><br>
+                En el caso de que la clave aún esté guardada, se cargan los datos del usuario desde la base de datos y
+                se navega a la página de <strong>Inicio</strong>. En el caso contrario (y más probable) de que el
+                usuario ya no tenga la clave maestra guardada, se cierra la sesión y navega a la página de
+                <strong>autenticación</strong>. En este caso, para ahorrar tiempo al usuario, se manda el correo
+                electrónico a esta página para que solo tenga que introducir la contraseña/clave maestra. Cabe recalcar
+                que este es el <strong>ÚNICO</strong> dato que se mantiene en local sin cifrar únicamente para esta
+                función (lo suyo sería poder dar la opción al usuario para no hacerlo y no comprometer este dato).
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-loadPage">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/loadPage/Captura%20de%20pantalla%202025-12-05%20124559.png"
+                            alt="Imagen 1"></div>
+                </div>
+                <button class="carousel-control prev" onclick="moveCarousel('carousel-loadPage', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-loadPage', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="page-login" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> login</h3>
+            <div class="page-text">
+                Recibe por parámetro un <strong>mail</strong> que puede ser nulo. Si se obtiene, se pasa automáticamente
+                al <em>textField</em> de la contraseña. Una vez rellenados los datos: se inicia sesión, se guardan el
+                email y la clave maestra en <strong>App States</strong>, se obtiene el documento de Firebase del usuario
+                (si no existe lo crea) y al final se lleva al usuario a la página de <strong>inicio</strong>.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-login">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/login/Captura%20de%20pantalla%202025-12-05%20123859.png"
+                            alt="Imagen 1"></div>
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/login/Captura%20de%20pantalla%202025-12-05%20123918.png"
+                            alt="Imagen 2"></div>
+                </div>
+                <button class="carousel-control prev" onclick="moveCarousel('carousel-login', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-login', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- SIGNUP -->
+        <div id="page-signUp" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> signUp</h3>
+            <div class="page-text">
+                Una página simple de <strong>registro</strong>, no está clonada ni decorada. Se registra al usuario, se
+                crea el documento de Firebase y el package "Personal" de forma predeterminada.
+            </div>
+        </div>
+
+        <!-- INICIO -->
+        <div id="page-inicio" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> Inicio</h3>
+            <div class="page-text">
+                Recibe por parámetros un <strong>package</strong>. Si lo recibe, solo se mostrarán los elementos de ese
+                mismo; si no, se muestran <strong>todos</strong> los elementos del usuario. Los Elementos se muestran
+                ordenados por fechas (último mes, dos últimos meses, tres últimos meses, etc.). En la app original se
+                muestra con más rango (horas, días, semanas...) pero para reducir trabajo lo hice de esta forma.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-inicio">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/inicio/Captura%20de%20pantalla%202025-12-05%20124407.png"
+                            alt="Imagen 1"></div>
+                </div>
+                <button class="carousel-control prev" onclick="moveCarousel('carousel-inicio', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-inicio', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- VIEWSESIONPAGE -->
+        <div id="page-viewSesionPage" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> viewSesionPage</h3>
+            <div class="page-text">
+                Al seleccionar un elemento de sesión en la página de inicio podemos ver detalladamente la información de
+                este elemento y <strong>copiar los datos</strong> de usuario y contraseña para usarlos, además de ver el
+                sitio web, package, etc.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-viewSesion">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/viewSesionPage/Captura%20de%20pantalla%202025-12-05%20124620.png"
+                            alt="Imagen 1">
+                    </div>
+                </div>
+                <button class="carousel-control prev"
+                    onclick="moveCarousel('carousel-viewSesion', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-viewSesion', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- PACKAGESMENU -->
+        <div id="page-packagesMenu" class="page-card section-target">
+            <h3><i class="fa-solid fa-cube page-icon"></i> packagesMenu</h3>
+            <div class="page-text">
+                Sirve para cambiar el <strong>package visible</strong> de elementos a: Todos los elementos, Lista de
+                packages, o Papelera. Al seleccionar uno, se recarga la página con el package seleccionado. Justo debajo
+                de la papelera hay un botón para crear packages.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-packagesMenu">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/PackegesMenu/Captura%20de%20pantalla%202025-12-05%20124423.png"
+                            alt="Imagen 1">
+                    </div>
+                </div>
+                <button class="carousel-control prev"
+                    onclick="moveCarousel('carousel-packagesMenu', -1)">&#10094;</button>
+                <button class="carousel-control next"
+                    onclick="moveCarousel('carousel-packagesMenu', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- CREATEPACKAGES -->
+        <div id="comp-createPackages" class="page-card section-target">
+            <h3><i class="fa-solid fa-cube page-icon"></i> createPackages</h3>
+            <div class="page-text">
+                Componente (<strong>NO CLON</strong>, ya que en móvil no encontré ni siquiera esta opción) para crear
+                packages. Puede personalizar Nombre, Color y seleccionar 1 de entre 5 iconos predefinidos.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-createPackages">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/createPackages/Captura%20de%20pantalla%202025-12-05%20125215.png"
+                            alt="Imagen 1">
+                    </div>
+                </div>
+                <button class="carousel-control prev"
+                    onclick="moveCarousel('carousel-createPackages', -1)">&#10094;</button>
+                <button class="carousel-control next"
+                    onclick="moveCarousel('carousel-createPackages', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- NAVBAR -->
+        <div id="comp-navBar" class="page-card section-target">
+            <h3><i class="fa-solid fa-cube page-icon"></i> navBar</h3>
+            <div class="page-text">
+                Menú inferior con 4 opciones: <strong>Inicio - menuCreateElement - Security - Settings</strong>.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-navBar">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/navbar/Captura%20de%20pantalla%202025-12-05%20125242.png"
+                            alt="Imagen 1"></div>
+                </div>
+                <button class="carousel-control prev" onclick="moveCarousel('carousel-navBar', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-navBar', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- MENUCREATEELEMENT -->
+        <div id="page-menuCreateElement" class="page-card section-target">
+            <h3><i class="fa-solid fa-cube page-icon"></i> menuCreateElement</h3>
+            <div class="page-text">
+                Menú donde se muestran todos los tipos de elementos y, al seleccionarlo, se lleva a la página donde se
+                puede crear ese mismo.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-menuCreate">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/menuCreateElement/Captura%20de%20pantalla%202025-12-05%20124639.png"
+                            alt="Imagen 1"></div>
+                </div>
+                <button class="carousel-control prev"
+                    onclick="moveCarousel('carousel-menuCreate', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-menuCreate', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- CREATESESIONPAGE -->
+        <div id="page-createSesionPage" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> createSesionPage</h3>
+            <div class="page-text">
+                En esta página hay un <strong>formulario simple</strong> donde crear este tipo de elementos que tiene:
+                Título, usuario/email, contraseña. <br><em>Sin configurar: Clave 2FA, Url, Nota y archivo adjunto.</em>
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-createSesion">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/createSeasonPage/Captura%20de%20pantalla%202025-12-05%20124731.png"
+                            alt="Imagen 1">
+                    </div>
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/createSeasonPage/Captura%20de%20pantalla%202025-12-05%20124743.png"
+                            alt="Imagen 2">
+                    </div>
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/createSeasonPage/Captura%20de%20pantalla%202025-12-05%20124756.png"
+                            alt="Imagen 3">
+                    </div>
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/createSeasonPage/Captura%20de%20pantalla%202025-12-05%20124802.png"
+                            alt="Imagen 3">
+                    </div>
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/createSeasonPage/Captura%20de%20pantalla%202025-12-05%20124825.png"
+                            alt="Imagen 3">
+                    </div>
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/Captura%20de%20pantalla%202025-12-05%20131058.png"
+                            alt="Imagen 3">
+                    </div>
+                </div>
+                <button class="carousel-control prev"
+                    onclick="moveCarousel('carousel-createSesion', -1)">&#10094;</button>
+                <button class="carousel-control next"
+                    onclick="moveCarousel('carousel-createSesion', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div id="page-security" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> security</h3>
+            <div class="page-text">
+                En esta página se puede observar el <strong>estado de las contraseñas</strong>: si están repetidas, si
+                son poco seguras, etc.
+            </div>
+            <!-- Carrusel -->
+            <div class="carousel" id="carousel-security">
+                <div class="carousel-inner">
+                    <div class="carousel-item"><img
+                            src="https://raw.githubusercontent.com/MarioDJB030/Doc-ProntonPassClone/refs/heads/main/imagenes/security/Captura%20de%20pantalla%202025-12-05%20124840.png"
+                            alt="Imagen 1"></div>
+                </div>
+                <button class="carousel-control prev" onclick="moveCarousel('carousel-security', -1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveCarousel('carousel-security', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div id="page-settings" class="page-card section-target">
+            <h3><i class="fa-regular fa-file-code page-icon"></i> settingsPage</h3>
+            <div class="page-text">
+                Configuración general de la aplicación. (No me dio timepo a hacer esta pantalla)
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dart.min.js"></script>
+    <script>
+        hljs.highlightAll();
+
+        // --- CÓDIGO DEL CARRUSEL ---
+        const carouselIndices = {};
+
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const inner = carousel.querySelector('.carousel-inner');
+            const items = inner.querySelectorAll('.carousel-item');
+            const totalItems = items.length;
+
+            if (carouselIndices[carouselId] === undefined) {
+                carouselIndices[carouselId] = 0;
+            }
+
+            let newIndex = carouselIndices[carouselId] + direction;
+
+            if (newIndex < 0) {
+                newIndex = totalItems - 1;
+            } else if (newIndex >= totalItems) {
+                newIndex = 0;
+            }
+
+            carouselIndices[carouselId] = newIndex;
+            inner.style.transform = `translateX(-${newIndex * 100}%)`;
+        }
+
+        // --- SCRIPT PARA OCULTAR FLECHAS SI SOLO HAY 1 IMAGEN ---
+        document.addEventListener('DOMContentLoaded', function () {
+            const carousels = document.querySelectorAll('.carousel');
+            carousels.forEach(carousel => {
+                const items = carousel.querySelectorAll('.carousel-item');
+                // Si hay 1 o menos imágenes, ocultamos los controles
+                if (items.length <= 1) {
+                    const controls = carousel.querySelectorAll('.carousel-control');
+                    controls.forEach(control => {
+                        control.style.display = 'none';
+                    });
+                }
+            });
+        });
+
+        // --- CÓDIGO DE BOTONES DE CÓDIGO (EXPANDIR/COPIAR) ---
+        function toggleCode(btn) {
+            const wrapper = btn.closest('.code-wrapper');
+            const content = wrapper.querySelector('.code-content');
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                btn.textContent = 'Expandir';
+            } else {
+                content.classList.add('expanded');
+                btn.textContent = 'Contraer';
+            }
+        }
+
+        function copyCode(btn) {
+            const wrapper = btn.closest('.code-wrapper');
+            const codeText = wrapper.querySelector('code').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '¡Copiado!';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
